@@ -3,16 +3,26 @@ import tkinter as tk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 
+B_COLOR = "#48EED8"
+FONT = "Tahoma"
+	
 def main():
 	root = tk.Tk()
-	w = tk.Canvas(root, width = 800, height = 600, bg= 'red')
+	w = tk.Canvas(root, width = 900, height = 700, bg= B_COLOR, highlightthickness=0)
 	w.pack()
-	background_image = tk.PhotoImage(file = 'background.png')
-	background_label = tk.Label(root, image = background_image)
-	background_label.place(x=0, y=0, relwidth = 1, relheight =1)
-	tk.Label(root, text = "Points").place(x = 0, y =0, relheight = .1, relwidth = .25)
-	# tk.Label(root, text = 'x').grid(row=1, column = 0)
-	# tk.Label(root, text = 'y').grid(row =1, column =1)
+	# background_image = tk.PhotoImage(file = 'background.png')
+	# background_label = tk.Label(root, image = background_image)
+	# background_label.place(x=0, y=0, relwidth = 1, relheight =1)
+	header = tk.Label(root, text = "LinReg Calculator", bg = B_COLOR, font = (FONT, 30, "bold"), anchor = 'w', fg = 'black')
+	header.place(x = 0, y =0, relheight = .1, relwidth = .5)
+	c1 = tk.Label(root, text = "Data Entry", bg = B_COLOR,font = (FONT, 12, "bold italic"), fg = 'red')
+	c1.place(x =0, y = 67, relheight = .04, relwidth = .33)
+	c2 = tk.Label(root, text = "Regression Type", bg = B_COLOR, font = (FONT, 12, "bold italic"), fg = 'red')
+	c2.place(x =300, y = 67, relheight = .04, relwidth = .33)
+	c3 = tk.Label(root, text = "Weighting", bg = B_COLOR, font = (FONT, 12, "bold italic"), fg = 'red')
+	c3.place(x =600, y = 67, relheight = .04, relwidth = .33)
+	tk.Label(root, text = 'x', bg = B_COLOR).place(x = 100, y = 300, relheight = .04, relwidth = .05)
+	tk.Label(root, text = 'y', bg = B_COLOR).place(x = 150, y = 300, relheight = .04, relwidth = .05)
 
 	# x = tk.Text(root, width = 7, height = 15)
 	# x.grid(row = 3, column =0)
