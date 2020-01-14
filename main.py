@@ -34,8 +34,8 @@ def main():
 	takeFile.place(x = 265, y=100)
 	ins = tk.Label(root, text = 'and/or points', bg = B_COLOR, font = (FONT, 12, 'bold'))
 	ins.place(x = 90, y = 130)
-	x = tk.Text(root, width = 7, height = 15)
-	y = tk.Text(root, widt = 7, height = 15)
+	x = tk.Text(root, width = 7, height = 15, font = (FONT, 12))
+	y = tk.Text(root, widt = 7, height = 15, font = (FONT, 12))
 	x.place(x = 80, y = 195)
 	y.place(x = 145, y =195)
 
@@ -54,6 +54,16 @@ def main():
 	regressions.insert(5, '5th degree')
 	regressions.place(x = 375, y = 125)	
 
+	calc = tk.Label(root, text = "Calculated Regression: f(x) = ", bg = B_COLOR, font = (FONT, 14))
+	calc.place(x = 20, y = 570)
+	eq = tk.Label(root, text = 'n/a', fg = 'red', font = (FONT, 14), width = 30)
+	eq.place(x =  280, y = 570)
+	rLabel = tk.Label(root, text = 'R  =', font = (FONT, 14), bg = B_COLOR)
+	rLabel.place(x = 20, y = 610)
+	meh = tk.Label(root, text = "2", font = (FONT, 8),bg = B_COLOR)
+	meh.place(x = 34, y = 608)
+	r = tk.Label(root, text = 'n/a', fg = 'red', font = (FONT, 14), width = 7)
+	r.place(x =  75, y = 610)
 	# w = tk.Button(root, width = 10, height =2, bg = 'red', text = 'GRAPH', command = lambda: graph(x.get("1.0",'end-1c').splitlines(), y.get("1.0",'end-1c').splitlines(), z.curselection()))
 	# w.grid(row = 3, column = 2)
 
