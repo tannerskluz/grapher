@@ -2,6 +2,7 @@ import numpy as np
 import tkinter as tk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
+import grapher as grapher
 
 B_COLOR = "#48EED8"
 FONT = "Tahoma"
@@ -24,8 +25,6 @@ def main():
 	c3.place(x =600, y = 67, relheight = .04, relwidth = .33)
 	tk.Label(root, text = 'x', bg = B_COLOR, font = (FONT, 12)).place(x = 90, y = 165, relheight = .04, relwidth = .05)
 	tk.Label(root, text = 'y', bg = B_COLOR, font = (FONT, 12)).place(x = 155, y = 165, relheight = .04, relwidth = .05)
-	button = tk.Button(root, width = 9, height = 1, bg = 'red', text = 'GRAPH', font = (FONT, 24)) #add command
-	button.place(x = 710, y = 610)
 	file = tk.Label(root, text = "Enter file name:",bg = B_COLOR, font = (FONT,10))
 	file.place(x = 10, y = 100)
 	fileTxt = tk.Entry(root, width = 25)
@@ -56,7 +55,7 @@ def main():
 
 	calc = tk.Label(root, text = "Calculated Regression: f(x) = ", bg = B_COLOR, font = (FONT, 14))
 	calc.place(x = 20, y = 570)
-	eq = tk.Label(root, text = 'n/a', fg = 'red', font = (FONT, 14), width = 30)
+	eq = tk.Label(root, text = 'n/a', fg = 'red', font = (FONT, 14), width = 41, anchor = 'w')
 	eq.place(x =  280, y = 570)
 	rLabel = tk.Label(root, text = 'R  =', font = (FONT, 14), bg = B_COLOR)
 	rLabel.place(x = 20, y = 610)
@@ -64,86 +63,124 @@ def main():
 	meh.place(x = 34, y = 608)
 	r = tk.Label(root, text = 'n/a', fg = 'red', font = (FONT, 14), width = 7)
 	r.place(x =  75, y = 610)
+	button = tk.Button(root, width = 9, height = 1, bg = 'red', text = 'GRAPH', font = (FONT, 24), command = lambda: graph(x.get("1.0",'end-1c').splitlines(), y.get("1.0",'end-1c').splitlines(), regressions.curselection(),eq))#add command
+	button.place(x = 710, y = 610)
+	#eq.config(text= 'no')
+
 	# w = tk.Button(root, width = 10, height =2, bg = 'red', text = 'GRAPH', command = lambda: graph(x.get("1.0",'end-1c').splitlines(), y.get("1.0",'end-1c').splitlines(), z.curselection()))
 	# w.grid(row = 3, column = 2)
 
+
 	root.mainloop()
 
-def graph(xText, yText, regression):
+
+#check for errors
+#initialize values in grapher.py
+#run execute in grapher.py
+def graph(xText, yText, regression, regBox): 
+	print(len(xText) ,len(yText) )
 	if (len(regression) == 0):
 		tk.messagebox.showerror("Error", "Pick a regression type")
 		return
-	if (len(xText) != len(yText)):
+	if (len(xText) != len(yText)) or len(xText) == 0:
 		tk.messagebox.showerror("Error,", "Missing points")
 		return
-	plt.clf()
-	size = len(xText)
-	points = np.zeros((size,2))
-	#print(points.shape)
-	for i in range(size):
+	graph = grapher.graph(len(xText))
+	graph.numberOfPoints = len(xText)
+	for i in range(len(xText)):
 		try:
-			points[i,0] = float(xText[i])	
+			graph.points[i,0] = float(xText[i])	
 		except ValueError:
 				tk.messagebox.showerror("Error", "All points must be numbers")
 				return
 		try:
-			points[i,1] = float(yText[i])
+			graph.points[i,1] = float(yText[i])
 		except ValueError:
 			tk.messagebox.showerror("Error", "All points must be numbers")
 			return
-	reg = regression[0]
-	plt.plot(points[:,0], points[:,1], 'ro')
-	#dim = xGraphDim(points)
-	x = np.linspace(xMinGraphDim(points)-2,xMaxGraphDim(points)+2, 100)
-	coefficients = polyFit(points, reg+1)
-	plt.plot(x, polyCalculate(coefficients, x), label = label(coefficients))
-	plt.title("test")
-	plt.legend()
-	plt.show()
+	graph.regression = regression[0]+1
+	#print(graph.regression)
+	graph.coefficients = graph.polyFit(graph.regression)
+	regBox.configure(text = graph.polyLabel())
+	graph.execute()
+	return
 
-# coefficients is an 1D array with the first coefficent beingt the x^0 term
-def polyCalculate(Coefficients, x):
-	coefficentPower = 0
-	done = 0
-	for c in Coefficients:
-		done = done + (c *(x**coefficentPower))
-		coefficentPower +=1
-	return done
 
-def xMaxGraphDim(points):
-	return max(points[:, 0])
+# def graph2(xText, yText, regression):
+# 	if (len(regression) == 0):
+# 		tk.messagebox.showerror("Error", "Pick a regression type")
+# 		return
+# 	if (len(xText) != len(yText)):
+# 		tk.messagebox.showerror("Error,", "Missing points")
+# 		return
+# 	plt.clf()
+# 	size = len(xText)
+# 	points = np.zeros((size,2))
+# 	#print(points.shape)
+# 	for i in range(size):
+# 		try:
+# 			points[i,0] = float(xText[i])	
+# 		except ValueError:
+# 				tk.messagebox.showerror("Error", "All points must be numbers")
+# 				return
+# 		try:
+# 			points[i,1] = float(yText[i])
+# 		except ValueError:
+# 			tk.messagebox.showerror("Error", "All points must be numbers")
+# 			return
+# 	reg = regression[0]
+# 	plt.plot(points[:,0], points[:,1], 'ro')
+# 	#dim = xGraphDim(points)
+# 	x = np.linspace(xMinGraphDim(points)-2,xMaxGraphDim(points)+2, 100)
+# 	coefficients = polyFit(points, reg+1)
+# 	plt.plot(x, polyCalculate(coefficients, x), label = label(coefficients))
+# 	plt.title("test")
+# 	plt.legend()
+# 	plt.show()
 
-def xMinGraphDim(points):
-	return min(points[:, 0])
+# # coefficients is an 1D array with the first coefficent beingt the x^0 term
+# def polyCalculate(Coefficients, x):
+# 	coefficentPower = 0
+# 	done = 0
+# 	for c in Coefficients:
+# 		done = done + (c *(x**coefficentPower))
+# 		coefficentPower +=1
+# 	return done
 
-def label(coeffs):
-	function = "f(x) = "
-	for i in reversed(range(len(coeffs))):
-		if i == 0:
-			function = function + str(round(coeffs[i],3))
-		elif i ==1:
-			function = function + str(round(coeffs[i],3)) +  "x + "
-		else:
-			function = function + str(round(coeffs[i],3)) +  "x^" + str(i)+ " + "
-	return function
+# def xMaxGraphDim(points):
+# 	return max(points[:, 0])
 
-#L is a list of points as touples
-#degree is an integer greater than 0 describing the degree of polynomial fit desired
-def polyFit(L, degree):
-	rowIndex = 0
-	array = np.ones((len(L), degree +1))
-	soln = np.zeros((len(L), 1))
-	for p in L:
-		for i in range(0,degree+1):
-			array[rowIndex, i] = (p[0])**i
-		soln[rowIndex, 0] = p[1]
-		rowIndex +=1
-	arrayT = np.transpose(array) 
-	coeff = np.matmul(arrayT,array)
-	soln2 = np.matmul(arrayT, soln)
-	fit = np.linalg.solve(coeff, soln2)
-	fit = np.transpose(fit)
-	return fit[0]
+# def xMinGraphDim(points):
+# 	return min(points[:, 0])
+
+# def label(coeffs):
+# 	function = "f(x) = "
+# 	for i in reversed(range(len(coeffs))):
+# 		if i == 0:
+# 			function = function + str(round(coeffs[i],3))
+# 		elif i ==1:
+# 			function = function + str(round(coeffs[i],3)) +  "x + "
+# 		else:
+# 			function = function + str(round(coeffs[i],3)) +  "x^" + str(i)+ " + "
+# 	return function
+
+# #L is a list of points as touples
+# #degree is an integer greater than 0 describing the degree of polynomial fit desired
+# def polyFit(L, degree):
+# 	rowIndex = 0
+# 	array = np.ones((len(L), degree +1))
+# 	soln = np.zeros((len(L), 1))
+# 	for p in L:
+# 		for i in range(0,degree+1):
+# 			array[rowIndex, i] = (p[0])**i
+# 		soln[rowIndex, 0] = p[1]
+# 		rowIndex +=1
+# 	arrayT = np.transpose(array) 
+# 	coeff = np.matmul(arrayT,array)
+# 	soln2 = np.matmul(arrayT, soln)
+# 	fit = np.linalg.solve(coeff, soln2)
+# 	fit = np.transpose(fit)
+# 	return fit[0]
 
 if __name__=="__main__":
 	main()
