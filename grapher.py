@@ -62,9 +62,12 @@ class graph:
 			rowIndex +=1
 		arrayT = np.transpose(array) 
 		coeff = np.matmul(arrayT,array)
+		print(coeff)
 		soln2 = np.matmul(arrayT, soln)
+		print(soln2)
 		fit = np.linalg.solve(coeff, soln2)
 		fit = np.transpose(fit)
+		#print(fit)
 		return fit[0]
 
 	def xAxisMax(self):

@@ -78,13 +78,14 @@ def main():
 #initialize values in grapher.py
 #run execute in grapher.py
 def graph(xText, yText, regression, regBox): 
-	print(len(xText) ,len(yText) )
+	#print(len(xText) ,len(yText) )
 	if (len(regression) == 0):
 		tk.messagebox.showerror("Error", "Pick a regression type")
 		return
 	if (len(xText) != len(yText)) or len(xText) == 0:
 		tk.messagebox.showerror("Error,", "Missing points")
 		return
+	print("Graphing " + str(len(xText))+ " data points")
 	graph = grapher.graph(len(xText))
 	graph.numberOfPoints = len(xText)
 	for i in range(len(xText)):
