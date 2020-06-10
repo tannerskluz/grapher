@@ -102,6 +102,9 @@ def graph(xText, yText, regression, regBox):
 	graph.regression = regression[0]+1
 	#print(graph.regression)
 	graph.coefficients = graph.polyFit(graph.regression)
+	# print(graph.calculatedFunction(2))
+	print(graph.points[:,1])
+	print(graph.rSquaredCalculate())
 	regBox.configure(text = graph.polyLabel())
 	graph.execute()
 	return

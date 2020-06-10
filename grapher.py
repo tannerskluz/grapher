@@ -29,9 +29,6 @@ class graph:
 		plt.show()		
 		#assume everything is initialized
 
-
-
-
 	def polyCalculate(self, x):
 		coefficientPower = 0
 		value = 0
@@ -62,9 +59,9 @@ class graph:
 			rowIndex +=1
 		arrayT = np.transpose(array) 
 		coeff = np.matmul(arrayT,array)
-		print(coeff)
+		#print(coeff)
 		soln2 = np.matmul(arrayT, soln)
-		print(soln2)
+		#print(soln2)
 		fit = np.linalg.solve(coeff, soln2)
 		fit = np.transpose(fit)
 		#print(fit)
@@ -78,6 +75,20 @@ class graph:
 		self.xMin = min(self.points[:, 0])
 
 
+	def calculatedFunction(self, xValue):
+		sum = 0
+		for i in range(len(self.coefficients)):
+			sum+= (xValue**i)*self.coefficients[i]
+		return sum
+
+	def rSquaredCalculate(self):
+		yValueAvg = np.average(self.points[:,1])
+		SSR = 0
+		SST = 0
+		for i in (range(len(self.points[:,1]))):
+			SSR += (self.points[i,1] - self.calculatedFunction(self.points[i,0]))**2
+			SST += (self.points[i,1] - yValueAvg)**2
+		return (1 - (SSR/SST)) * 100
 
 
 	
