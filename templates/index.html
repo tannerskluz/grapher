@@ -1,9 +1,42 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+<title>Grapher</title>
 {% endblock %}
 
 {% block body %}
-<h1>Templsate</h1>
+<div class ="content">
+	<h1>LinReg Grapher</h1>
+
+	<table>
+		<tr>
+			<th>x</th>
+			<th>y</th>
+			<th>Delete</th>
+		</tr>
+		{% for point in points %}
+			<tr>
+				<td>{{ point.xValues }}</td>
+				<td>{{ point.yValues }}</td>
+				<td>
+					<a href="/delete/{{point.id}}">Delete</a>
+
+
+				</td>
+
+			</tr>
+		{% endfor %}
+	</table>
+
+	<form action = "/" method= "POST">
+		<input type = "text" name= "content" id = "content">
+		<input type="submit" value="Add Point">
+
+	</form>
+	<form action = "/graph" method= "POST">
+		<input type="submit" value="GRAPH">
+
+	</form>
+</div>
+
 {% endblock %}
