@@ -47,5 +47,27 @@ def delete(id):
 	except:
 		return 'There was a problem deleting that point'
 
+@app.route('/graph', methods=['GET', 'POST'])
+def graph():
+	if request.method == 'POST':
+		xPoints = Data.query.with_entities(Data.xValues)
+		yPoints = Data.query.with_entities(Data.yValues)
+		xPoints = [x for x, in xPoints]
+		yPoints = [y for y, in yPoints]
+		# print(type(xPoints))
+		print('x points')
+		for x in xPoints:
+			print(x)
+		print('y points')
+		for y in yPoints:
+			print(y)
+		# print(xPoints)
+		# print(yPoints)
+		return "worked"
+	else:
+		return render_template('index.html', points = points)
+
+
+
 if __name__ == "__main__":
 	app.run(debug=True)
