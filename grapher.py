@@ -1,7 +1,7 @@
 import numpy as np
 import tkinter as tk
 from tkinter import messagebox
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt, mpld3
 
 
 class graph:
@@ -28,6 +28,18 @@ class graph:
 		plt.legend()
 		plt.show()		
 		#assume everything is initialized
+
+	def graphToHtml(self):
+		display = plt.figure()
+		#plt.clf(figure = display)
+		#self.coefficients = self.polyFit(self.regression)
+		f, display = plt.subplots()
+		display.plot(self.points[:,0], self.points[:,1], 'ro')
+		x = np.linspace((min(self.points[:, 0]))-2,max(self.points[:, 0])+2, 100)
+		display.plot(x, self.polyCalculate(x), label = "f(x) = " +self.polyLabel())
+		plt.title("test")
+		display.legend()
+		return f		
 
 	def polyCalculate(self, x):
 		coefficientPower = 0

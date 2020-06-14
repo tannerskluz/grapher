@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import grapher as gr
+import mpld3
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -54,16 +56,32 @@ def graph():
 		yPoints = Data.query.with_entities(Data.yValues)
 		xPoints = [x for x, in xPoints]
 		yPoints = [y for y, in yPoints]
-		# print(type(xPoints))
-		print('x points')
-		for x in xPoints:
-			print(x)
-		print('y points')
-		for y in yPoints:
-			print(y)
-		# # print(xPoints)
-		# # print(yPoints)
-		return "worked"
+		# # print(type(xPoints))
+		# print('x points')
+		# for x in xPoints:
+		# 	print(x)
+		# print('y points')
+		# for y in yPoints:
+		# 	print(y)
+		# # # print(xPoints)
+		# # # print(yPoints)
+		graph = gr.graph(len(xPoints))
+		graph.numberOfPoints = len(xPoints)
+		for i in range(len(xPoints)):
+			graph.points[i,0] = xPoints[i]
+			graph.points[i,1] = yPoints[i]
+		graph.regression = 1
+		graph.coefficients = graph.polyFit(graph.regression)
+		# print(graph.calculatedFunction(2))
+		print('Points graphed x:')
+		print(graph.points[:,0])
+		print('Points graphed y:')
+		print(graph.points[:,1])
+		print('calculated function:')
+		print(graph.polyLabel())
+		print('caulculated r^2:')
+		print(graph.rSquaredCalculate())
+		return mpld3.fig_to_html((graph.graphToHtml()))
 	else:
 		return render_template('index.html', points = points)
 
