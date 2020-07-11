@@ -1,1 +1,1 @@
-#### grapher projecte by Tanner Skluzacek
+#### grapher project by Tanner Skluzacek
