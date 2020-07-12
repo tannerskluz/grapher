@@ -1,10 +1,10 @@
 body, html {
     margin: 0;
-    font-family: sans-serif;
+    font-family: "Courier New", Courier, monospace;
 }
 
 .content {
-    margin: 0 auto;
+    margin: 1 auto;
     width: 400px;
 }
 
@@ -32,4 +32,9 @@ td {
 
 #content {
     width: 70%;
+}
+
+.selector{
+    margin: 0 auto;
+    width: 900px;
 }

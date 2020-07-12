@@ -71,6 +71,7 @@ def graph():
 			graph.points[i,0] = xPoints[i]
 			graph.points[i,1] = yPoints[i]
 		graph.regression = 1
+		####print('reg type', request.form.get('selector'))
 		graph.coefficients = graph.polyFit(graph.regression)
 		# print(graph.calculatedFunction(2))
 		print('Points graphed x:')
