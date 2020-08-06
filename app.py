@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import grapher as gr
 import mpld3
+import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -82,7 +83,10 @@ def graph():
 		print(graph.polyLabel())
 		print('caulculated r^2:')
 		print(graph.rSquaredCalculate())
-		return mpld3.fig_to_html((graph.graphToHtml()))
+		#return mpld3.fig_to_html((graph.graphToHtml()))
+		json1 = json.dumps(mpld3.fig_to_dict(graph.graphToHtml()))
+		points = Data.query.order_by(Data.date_created).all()
+		return render_template('index.html', points = points, json1 = json1)
 	else:
 		return render_template('index.html', points = points)
 

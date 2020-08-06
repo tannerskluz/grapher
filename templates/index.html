@@ -45,6 +45,11 @@
 
 	</form>
 </div>
-
-
+<div id="fig1">
+	<h1>Graph</h1>
+	<script type="text/javascript">
+		var json = {{ json1|safe }};
+		mpld3.draw_figure("fig1", json);
+	</script>
+</div>
 {% endblock %}
