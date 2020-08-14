@@ -45,11 +45,12 @@
 
 	</form>
 </div>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="http://mpld3.github.io/js/mpld3.v0.1.js"></script>
 <div id="fig1">
 	<h1>Graph</h1>
 	<script type="text/javascript">
-		var json = {{ json1|safe }};
-		mpld3.draw_figure("fig1", json);
+		mpld3.draw_figure("fig1", {{ json1|safe }});
 	</script>
 </div>
 {% endblock %}
