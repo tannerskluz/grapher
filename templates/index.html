@@ -20,8 +20,6 @@
 				<td>{{ point.yValues }}</td>
 				<td>
 					<a href="/delete/{{point.id}}">Delete</a>
-
-
 				</td>
 
 			</tr>
@@ -37,10 +35,14 @@
 		<input type="submit" value="GRAPH">
 		<label for = "regs">Choose a regression type:</label>
 		<select name = "regs" id = "regs"> 
-			<option selected value = 1>1st Degree</option>
+<!-- 			<option value = 1>1st Degree</option>
 			<option value = 2>2nd Degree</option>
 			<option value = 3>3rd Degree</option>
-			<option value = 4>4th Degree</option>
+			<option value = 4>4th Degree</option> -->
+			<option value=1{% if regstatus==1 %} selected="selected"{% endif %}>1st Degree</option>
+			<option value=2{% if regstatus==2 %} selected="selected"{% endif %}>2nd Degree</option>
+			<option value=3{% if regstatus==3 %} selected="selected"{% endif %}>3rd Degree</option>
+			<option value=4{% if regstatus==4 %} selected="selected"{% endif %}>4th Degree</option>
 		</select>
 
 	</form>

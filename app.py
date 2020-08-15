@@ -8,6 +8,7 @@ import json
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+reg = 1
 
 class Data(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -44,20 +45,28 @@ def index():
 		try:
 			db.session.add(new_point)
 			db.session.commit()
-			return redirect('/')
+			#return redirect('/')
 		except:
 			return 'There was an issure adding your task'
+		#reg = int(request.form.get("regs"))
+		points = Data.query.order_by(Data.date_created).all()
+		global reg
+		json1 = json.dumps(mpld3.fig_to_dict(prepare_graph(reg)))
+		return render_template('index.html',points = points, json1 = json1, regstatus = reg)
 	elif request.method == 'GET':
+		print('get spot')
 		try:
-			reg = int(request.args.get('regs'))
+			temp_reg = int(request.args.get('regs'))
 		except: 
-			reg = 1
+			temp_reg = 1
+		reg = temp_reg
 		print("regressoin : ", reg)
 		json1 = json.dumps(mpld3.fig_to_dict(prepare_graph(reg)))
 		points = Data.query.order_by(Data.date_created).all()
-		return render_template('index.html', points = points, json1 = json1)
+		return render_template('index.html', points = points, json1 = json1, regstatus = reg)
 	else:
 		points = Data.query.order_by(Data.date_created).all()
+		print('this spot')
 		return render_template('index.html', points = points)
 
 @app.route('/delete/<int:id>')
@@ -67,10 +76,13 @@ def delete(id):
 	try:
 		db.session.delete(point_to_delete)
 		db.session.commit()
-		return redirect('/')
+		#return redirect('/')
 	except:
 		return 'There was a problem deleting that point'
-
+	global reg
+	json1 = json.dumps(mpld3.fig_to_dict(prepare_graph(reg)))
+	points = Data.query.order_by(Data.date_created).all()
+	return render_template('index.html', points = points, json1 = json1, regstatus = reg)
 # @app.route('/graph', methods=['GET', 'POST'])
 # def graph():
 # 	if request.method == 'POST':
