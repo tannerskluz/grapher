@@ -32,8 +32,12 @@ def prepare_graph(regression_type):
 		graph.points[i,1] = yPoints[i]
 	graph.regression = regression_type
 	graph.coefficients = graph.polyFit(graph.regression)
-	return graph.graphToHtml()
-
+	function = graph.polyLabel()
+	rSquared = graph.rSquaredCalculate()
+	#print(function)
+	#print(rSquared)
+	#return graph.graphToHtml()
+	return graph.graphToHtml(), function, rSquared
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
@@ -51,8 +55,14 @@ def index():
 		#reg = int(request.form.get("regs"))
 		points = Data.query.order_by(Data.date_created).all()
 		global reg
-		json1 = json.dumps(mpld3.fig_to_dict(prepare_graph(reg)))
-		return render_template('index.html',points = points, json1 = json1, regstatus = reg)
+		try:
+			g, f, r = prepare_graph(reg)
+			json1 = json.dumps(mpld3.fig_to_dict(g))
+		except:
+			return render_template('index.html',points = points, json1 = None,regstatus = reg)
+		print(f)
+		print(r)
+		return render_template('index.html',points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
 	elif request.method == 'GET':
 		print('get spot')
 		try:
@@ -61,9 +71,15 @@ def index():
 			temp_reg = 1
 		reg = temp_reg
 		print("regressoin : ", reg)
-		json1 = json.dumps(mpld3.fig_to_dict(prepare_graph(reg)))
 		points = Data.query.order_by(Data.date_created).all()
-		return render_template('index.html', points = points, json1 = json1, regstatus = reg)
+		try:
+			g, f, r = prepare_graph(reg)
+			json1 = json.dumps(mpld3.fig_to_dict(g))
+		except:
+			return render_template('index.html',points = points, json1 = None,regstatus = reg)
+		print(f)
+		print(r)
+		return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
 	else:
 		points = Data.query.order_by(Data.date_created).all()
 		print('this spot')
@@ -80,9 +96,15 @@ def delete(id):
 	except:
 		return 'There was a problem deleting that point'
 	global reg
-	json1 = json.dumps(mpld3.fig_to_dict(prepare_graph(reg)))
 	points = Data.query.order_by(Data.date_created).all()
-	return render_template('index.html', points = points, json1 = json1, regstatus = reg)
+	try:
+			g, f, r = prepare_graph(reg)
+			json1 = json.dumps(mpld3.fig_to_dict(g))
+	except:
+		return render_template('index.html',points = points, json1 = None,regstatus = reg)
+	print(f)
+	print(r)
+	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
 # @app.route('/graph', methods=['GET', 'POST'])
 # def graph():
 # 	if request.method == 'POST':
