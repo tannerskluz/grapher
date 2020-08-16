@@ -105,47 +105,6 @@ def delete(id):
 	print(f)
 	print(r)
 	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
-# @app.route('/graph', methods=['GET', 'POST'])
-# def graph():
-# 	if request.method == 'POST':
-# 		xPoints = Data.query.with_entities(Data.xValues)
-# 		yPoints = Data.query.with_entities(Data.yValues)
-# 		xPoints = [x for x, in xPoints]
-# 		yPoints = [y for y, in yPoints]
-# 		# # print(type(xPoints))
-# 		# print('x points')
-# 		# for x in xPoints:
-# 		# 	print(x)
-# 		# print('y points')
-# 		# for y in yPoints:
-# 		# 	print(y)
-# 		# # # print(xPoints)
-# 		# # # print(yPoints)
-# 		graph = gr.graph(len(xPoints))
-# 		graph.numberOfPoints = len(xPoints)
-# 		for i in range(len(xPoints)):
-# 			graph.points[i,0] = xPoints[i]
-# 			graph.points[i,1] = yPoints[i]
-# 		graph.regression = int(request.form.get('regs'))
-# 		print('reg type:', request.form.get('regs'))
-# 		graph.coefficients = graph.polyFit(graph.regression)
-# 		# print(graph.calculatedFunction(2))
-# 		print('Points graphed x:')
-# 		print(graph.points[:,0])
-# 		print('Points graphed y:')
-# 		print(graph.points[:,1])
-# 		print('calculated function:')
-# 		print(graph.polyLabel())
-# 		print('caulculated r^2:')
-# 		print(graph.rSquaredCalculate())
-# 		#return mpld3.fig_to_html((graph.graphToHtml()))
-# 		json1 = json.dumps(mpld3.fig_to_dict(graph.graphToHtml()))
-# 		points = Data.query.order_by(Data.date_created).all()
-# 		return render_template('index.html', points = points, json1 = json1)
-# 	else:
-# 		return render_template('index.html', points = points)
-
-
 
 if __name__ == "__main__":
 	app.run(debug=True)
