@@ -102,7 +102,7 @@ class graph:
 		for i in (range(len(self.points[:,1]))):
 			SSR += (self.points[i,1] - self.calculatedFunction(self.points[i,0]))**2
 			SST += (self.points[i,1] - yValueAvg)**2
-		return (1 - (SSR/SST)) * 100
+		return round((1 - (SSR/SST)) * 100,2)
 
 
 	

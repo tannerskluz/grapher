@@ -1,5 +1,5 @@
 body, html {
-    margin: 0;
+    margin: 30;
     font-family: "Courier New", Courier, monospace;
 }
 
@@ -37,4 +37,13 @@ td {
 .selector{
     margin: 0 auto;
     width: 900px;
+}
+
+
+.fig1 {
+    margin: 1 auto;
+    width: 400px;
+    position: relative;
+    top: 30;
+    right: 20;
 }
