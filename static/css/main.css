@@ -40,10 +40,21 @@ td {
 }
 
 
-.fig1 {
-    margin: 1 auto;
-    width: 400px;
-    position: relative;
-    top: 30;
-    right: 20;
+#fig1 {
+    /*margin: 1 auto;*/
+    width: 500px;
+    position: absolute;
+    top: 30px;
+    left: 60%;
+}
+
+#points{
+    position: absolute;
+    width: 350px;
+    left: 7%;
+}
+
+#regression{
+    position: absolute;
+    left: 35%;
 }
