@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Grapher</title>
+<title>Regression Grapher</title>
 {% endblock %}
 
 {% block body %}
-<div class ="content">
-	<h1>LinReg Grapher</h1>
-
+<div id = "points">
+	<b>Points</b>
 	<table>
 		<tr>
 			<th>x</th>
@@ -20,8 +19,6 @@
 				<td>{{ point.yValues }}</td>
 				<td>
 					<a href="/delete/{{point.id}}">Delete</a>
-
-
 				</td>
 
 			</tr>
@@ -29,22 +26,25 @@
 	</table>
 
 	<form action = "/" method= "POST">
-		<input type = "text" name= "content" id = "content">
+		<input type = "text" name= "content" placeholder = "x,y" id = "content">
 		<input type="submit" value="Add Point">
-
-	</form>
-	<form action = "/graph" method= "POST">
-		<input type="submit" value="GRAPH">
-		<label for = "regs">Choose a regression type:</label>
-		<select name = "regs" id = "regs"> 
-			<option value = 1>1st Degree</option>
-			<option value = 2>2nd Degree</option>
-			<option value = 3>3rd Degree</option>
-			<option value = 4>4th Degree</option>
-		</select>
-
 	</form>
 </div>
+<div id = "regression">
+	<form action = "/" method= "GET">
+		<label for = "regs">Choose a regression type:</label>
+		<select name = "regs" id = "regs"> 
+			<option value=1{% if regstatus==1 %} selected="selected"{% endif %}>1st Degree</option>
+			<option value=2{% if regstatus==2 %} selected="selected"{% endif %}>2nd Degree</option>
+			<option value=3{% if regstatus==3 %} selected="selected"{% endif %}>3rd Degree</option>
+			<option value=4{% if regstatus==4 %} selected="selected"{% endif %}>4th Degree</option>
+			<option value=5{% if regstatus==5 %} selected="selected"{% endif %}>5th Degree</option>
+		</select>
+		<input type="submit" value="GRAPH">
+	</form>
+</div>
+
+
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://mpld3.github.io/js/mpld3.v0.1.js"></script>
 <div id="fig1">
@@ -52,5 +52,13 @@
 	<script type="text/javascript">
 		mpld3.draw_figure("fig1", {{ json1|safe }});
 	</script>
+	{% if json1 == None %}
+		<small>add more points</small>
+	{% endif %}
+	{% if json1 != None %}
+		<b>Calculated Function: {{function}}</b>
+		<br>
+		<b>R^2 Value: {{r2}}</b>
+	{% endif %}
 </div>
 {% endblock %}

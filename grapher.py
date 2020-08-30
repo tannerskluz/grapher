@@ -37,8 +37,10 @@ class graph:
 		display.plot(self.points[:,0], self.points[:,1], 'ro')
 		x = np.linspace((min(self.points[:, 0]))-2,max(self.points[:, 0])+2, 100)
 		display.plot(x, self.polyCalculate(x), label = "f(x) = " +self.polyLabel())
-		plt.title("test")
+		#plt.title("test")
 		display.legend()
+		plt.xlabel('x')
+		plt.ylabel('y')
 		return f		
 
 	def polyCalculate(self, x):
@@ -100,7 +102,7 @@ class graph:
 		for i in (range(len(self.points[:,1]))):
 			SSR += (self.points[i,1] - self.calculatedFunction(self.points[i,0]))**2
 			SST += (self.points[i,1] - yValueAvg)**2
-		return (1 - (SSR/SST)) * 100
+		return round((1 - (SSR/SST)) * 100,2)
 
 
 	
