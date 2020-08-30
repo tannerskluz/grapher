@@ -106,5 +106,9 @@ def delete(id):
 	print(r)
 	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
 
+@app.route('/about')
+def about():
+	return render_template('about.html')
+
 if __name__ == "__main__":
 	app.run(debug=True)
