@@ -43,10 +43,10 @@ def prepare_graph(regression_type):
 def index():
 	if request.method == 'POST':
 		task_content =request.form['content']
-		xVal = float(task_content.split(',')[0])
-		yVal = float(task_content.split(',')[1])
-		new_point = Data(xValues = xVal, yValues = yVal)
 		try:
+			xVal = float(task_content.split(',')[0])
+			yVal = float(task_content.split(',')[1])
+			new_point = Data(xValues = xVal, yValues = yVal)
 			already_in = Data.query.order_by(Data.date_created).all()
 			unique = True
 			for point in already_in:
@@ -60,7 +60,7 @@ def index():
 				print('point already listed')
 			#return redirect('/')
 		except:
-			return 'There was an issure adding your task'
+			return redirect('/')
 		#reg = int(request.form.get("regs"))
 		points = Data.query.order_by(Data.date_created).all()
 		global reg
