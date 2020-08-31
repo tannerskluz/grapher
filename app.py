@@ -47,8 +47,17 @@ def index():
 		yVal = float(task_content.split(',')[1])
 		new_point = Data(xValues = xVal, yValues = yVal)
 		try:
-			db.session.add(new_point)
-			db.session.commit()
+			already_in = Data.query.order_by(Data.date_created).all()
+			unique = True
+			for point in already_in:
+				if point.xValues == xVal and point.yValues == yVal:
+					unique =False
+					break
+			if unique:
+				db.session.add(new_point)
+				db.session.commit()
+			else:
+				print('point already listed')
 			#return redirect('/')
 		except:
 			return 'There was an issure adding your task'
