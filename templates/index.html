@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-<div id = "points">
+<div class = "points">
 	<b>Points</b>
 	<table>
 		<tr>
@@ -24,24 +24,25 @@
 			</tr>
 		{% endfor %}
 	</table>
-
-	<form action = "/" method= "POST">
-		<input type = "text" name= "content" placeholder = "x,y" id = "content">
-		<input type="submit" value="Add Point">
-	</form>
-</div>
-<div id = "regression">
-	<form action = "/" method= "GET">
-		<label for = "regs">Choose a regression type:</label>
-		<select name = "regs" id = "regs"> 
-			<option value=1{% if regstatus==1 %} selected="selected"{% endif %}>1st Degree</option>
-			<option value=2{% if regstatus==2 %} selected="selected"{% endif %}>2nd Degree</option>
-			<option value=3{% if regstatus==3 %} selected="selected"{% endif %}>3rd Degree</option>
-			<option value=4{% if regstatus==4 %} selected="selected"{% endif %}>4th Degree</option>
-			<option value=5{% if regstatus==5 %} selected="selected"{% endif %}>5th Degree</option>
-		</select>
-		<input type="submit" value="GRAPH">
-	</form>
+	<div class = "add">
+		<form action = "/" method= "POST">
+			<input type = "text" name= "content" placeholder = "x,y" id = "content">
+			<input type="submit" value="Add Point">
+		</form>
+		<div class = "regression">
+			<form action = "/" method= "GET">
+				<label for = "regs">Choose a regression type:</label>
+				<select name = "regs" id = "regs"> 
+					<option value=1{% if regstatus==1 %} selected="selected"{% endif %}>1st Degree</option>
+					<option value=2{% if regstatus==2 %} selected="selected"{% endif %}>2nd Degree</option>
+					<option value=3{% if regstatus==3 %} selected="selected"{% endif %}>3rd Degree</option>
+					<option value=4{% if regstatus==4 %} selected="selected"{% endif %}>4th Degree</option>
+					<option value=5{% if regstatus==5 %} selected="selected"{% endif %}>5th Degree</option>
+				</select>
+				<input type="submit" value="GRAPH">
+			</form>
+		</div>
+	</div>
 </div>
 
 
@@ -61,4 +62,16 @@
 		<b>R^2 Value: {{r2}}</b>
 	{% endif %}
 </div>
+{% if add_error %}
+	<h2>couldn't add</h2>
+	<div class="alert error">
+		<input type="checkbox" id="alert1"/>
+		<label class="close" title="close" for="alert1">
+			<i class="icon-remove"></i>
+		</label>
+		<p class="inner">
+			<strong>Warning!</strong> The alerts are too damn awesome!
+		</p>
+	</div>
+{% endif %}
 {% endblock %}
