@@ -41,6 +41,7 @@ class graph:
 		display.legend()
 		plt.xlabel('x')
 		plt.ylabel('y')
+		plt.title('Graph')
 		return f		
 
 	def polyCalculate(self, x):

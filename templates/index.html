@@ -6,7 +6,7 @@
 
 {% block body %}
 <div class = "points">
-	<b>Points</b>
+	<h3>Data</h3>
 	<table>
 		<tr>
 			<th>x</th>
@@ -29,6 +29,17 @@
 			<input type = "text" name= "content" placeholder = "x,y" id = "content">
 			<input type="submit" value="Add Point">
 		</form>
+		{% if add_error %}
+		<div class="alert error">
+			<input type="checkbox" id="alert1"/>
+			<label class="close" title="close" for="alert1">
+				<i class="icon-remove"></i>
+			</label>
+			<p class="inner">
+				<strong>Error!</strong> Invalid point input
+			</p>
+		</div>
+		{% endif %}
 		<div class = "regression">
 			<form action = "/" method= "GET">
 				<label for = "regs">Choose a regression type:</label>
@@ -49,12 +60,20 @@
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://mpld3.github.io/js/mpld3.v0.1.js"></script>
 <div id="fig1">
-	<h1>Graph</h1>
 	<script type="text/javascript">
 		mpld3.draw_figure("fig1", {{ json1|safe }});
 	</script>
 	{% if json1 == None %}
-		<small>add more points</small>
+		<h2>Graph</h2>
+		<div class="alert error">
+			<input type="checkbox" id="alert1"/>
+			<label class="close" title="close" for="alert1">
+				<i class="icon-remove"></i>
+			</label>
+			<p class="inner">
+				<strong>Error!</strong> Selected regression not possible on data
+			</p>
+		</div>
 	{% endif %}
 	{% if json1 != None %}
 		<b>Calculated Function: {{function}}</b>
@@ -62,16 +81,4 @@
 		<b>R^2 Value: {{r2}}</b>
 	{% endif %}
 </div>
-{% if add_error %}
-	<h2>couldn't add</h2>
-	<div class="alert error">
-		<input type="checkbox" id="alert1"/>
-		<label class="close" title="close" for="alert1">
-			<i class="icon-remove"></i>
-		</label>
-		<p class="inner">
-			<strong>Warning!</strong> The alerts are too damn awesome!
-		</p>
-	</div>
-{% endif %}
 {% endblock %}

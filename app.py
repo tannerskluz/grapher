@@ -90,7 +90,8 @@ def index():
 		try:
 			temp_reg = int(request.args.get('regs'))
 		except: 
-			temp_reg = 3
+			print("could not get regs")
+			temp_reg = 1
 		reg = temp_reg
 		print("regressoin : ", reg)
 		points = Data.query.order_by(Data.date_created).all()
@@ -122,6 +123,19 @@ def delete(id):
 	try:
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
+	except:
+		return render_template('index.html',points = points, json1 = None,regstatus = reg)
+	print(f)
+	print(r)
+	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
+
+@app.route('/regraph')
+def regraph():
+	global reg
+	points = Data.query.order_by(Data.date_created).all()
+	try:
+		g, f, r = prepare_graph(reg)
+		json1 = json.dumps(mpld3.fig_to_dict(g))
 	except:
 		return render_template('index.html',points = points, json1 = None,regstatus = reg)
 	print(f)

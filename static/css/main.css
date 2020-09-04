@@ -18,7 +18,7 @@ body, html {
     width: 100%;
     height: 80px;
     display: block;
-    background-color: #08039c;
+    background-color: #0803a1;
 }
 
 .inner_header{
@@ -117,7 +117,7 @@ td {
     position: relative;
     width: 30%;
     left: 7%;
-    top: 100px;
+    top: 50px;
 }
 
 .add{
@@ -138,13 +138,14 @@ td {
 
 .alert .inner {
   display: block;
-  padding: 6px;
-  margin: 6px;
+  /*padding: 6px;
+  margin: 6px;*/
   border-radius: 3px;
   border: 1px solid rgb(180,180,180);
   background-color: rgb(212,212,212);
-  width: 20%;
-  top: 400px;
+  width: 100%;
+  top: 30px;
+  position: absolute;
 }
 
 .alert .close {
@@ -205,6 +206,7 @@ td {
 .alert.warning .inner,.alert.warning .close {
   color: rgb(192,152,83);
 }
+
 
 @keyframes dismiss {
   0% {
