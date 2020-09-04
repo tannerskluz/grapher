@@ -25,6 +25,9 @@ def prepare_graph(regression_type):
 	yPoints = Data.query.with_entities(Data.yValues)
 	xPoints = [x for x, in xPoints]
 	yPoints = [y for y, in yPoints]
+	if len(xPoints) <= regression_type:
+		print('error points regression_type')
+		raise ValueError('Not enough points for regression')
 	graph = gr.graph(len(xPoints))
 	graph.numberOfPoints = len(xPoints)
 	for i in range(len(xPoints)):
@@ -49,6 +52,7 @@ def index():
 			new_point = Data(xValues = xVal, yValues = yVal)
 			already_in = Data.query.order_by(Data.date_created).all()
 			unique = True
+			global reg
 			for point in already_in:
 				if point.xValues == xVal and point.yValues == yVal:
 					unique =False
@@ -60,10 +64,19 @@ def index():
 				print('point already listed')
 			#return redirect('/')
 		except:
-			return redirect('/')
+			#note that input is incorrect
+			points = Data.query.order_by(Data.date_created).all()
+			try:
+				g, f, r = prepare_graph(reg)
+				json1 = json.dumps(mpld3.fig_to_dict(g))
+			except:
+				return render_template('index.html',points = points, json1 = None,regstatus = reg, add_error = True)
+			print(f)
+			print(r)
+			return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r, add_error =True)
 		#reg = int(request.form.get("regs"))
 		points = Data.query.order_by(Data.date_created).all()
-		global reg
+		#global reg
 		try:
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
@@ -77,6 +90,7 @@ def index():
 		try:
 			temp_reg = int(request.args.get('regs'))
 		except: 
+			print("could not get regs")
 			temp_reg = 1
 		reg = temp_reg
 		print("regressoin : ", reg)
@@ -109,6 +123,19 @@ def delete(id):
 	try:
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
+	except:
+		return render_template('index.html',points = points, json1 = None,regstatus = reg)
+	print(f)
+	print(r)
+	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
+
+@app.route('/regraph')
+def regraph():
+	global reg
+	points = Data.query.order_by(Data.date_created).all()
+	try:
+		g, f, r = prepare_graph(reg)
+		json1 = json.dumps(mpld3.fig_to_dict(g))
 	except:
 		return render_template('index.html',points = points, json1 = None,regstatus = reg)
 	print(f)

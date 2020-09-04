@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-<div id = "points">
-	<b>Points</b>
+<div class = "points">
+	<h3>Data</h3>
 	<table>
 		<tr>
 			<th>x</th>
@@ -24,36 +24,56 @@
 			</tr>
 		{% endfor %}
 	</table>
-
-	<form action = "/" method= "POST">
-		<input type = "text" name= "content" placeholder = "x,y" id = "content">
-		<input type="submit" value="Add Point">
-	</form>
-</div>
-<div id = "regression">
-	<form action = "/" method= "GET">
-		<label for = "regs">Choose a regression type:</label>
-		<select name = "regs" id = "regs"> 
-			<option value=1{% if regstatus==1 %} selected="selected"{% endif %}>1st Degree</option>
-			<option value=2{% if regstatus==2 %} selected="selected"{% endif %}>2nd Degree</option>
-			<option value=3{% if regstatus==3 %} selected="selected"{% endif %}>3rd Degree</option>
-			<option value=4{% if regstatus==4 %} selected="selected"{% endif %}>4th Degree</option>
-			<option value=5{% if regstatus==5 %} selected="selected"{% endif %}>5th Degree</option>
-		</select>
-		<input type="submit" value="GRAPH">
-	</form>
+	<div class = "add">
+		<form action = "/" method= "POST">
+			<input type = "text" name= "content" placeholder = "x,y" id = "content">
+			<input type="submit" value="Add Point">
+		</form>
+		{% if add_error %}
+		<div class="alert error">
+			<input type="checkbox" id="alert1"/>
+			<label class="close" title="close" for="alert1">
+				<i class="icon-remove"></i>
+			</label>
+			<p class="inner">
+				<strong>Error!</strong> Invalid point input
+			</p>
+		</div>
+		{% endif %}
+		<div class = "regression">
+			<form action = "/" method= "GET">
+				<label for = "regs">Choose a regression type:</label>
+				<select name = "regs" id = "regs"> 
+					<option value=1{% if regstatus==1 %} selected="selected"{% endif %}>1st Degree</option>
+					<option value=2{% if regstatus==2 %} selected="selected"{% endif %}>2nd Degree</option>
+					<option value=3{% if regstatus==3 %} selected="selected"{% endif %}>3rd Degree</option>
+					<option value=4{% if regstatus==4 %} selected="selected"{% endif %}>4th Degree</option>
+					<option value=5{% if regstatus==5 %} selected="selected"{% endif %}>5th Degree</option>
+				</select>
+				<input type="submit" value="GRAPH">
+			</form>
+		</div>
+	</div>
 </div>
 
 
 <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 <script type="text/javascript" src="http://mpld3.github.io/js/mpld3.v0.1.js"></script>
 <div id="fig1">
-	<h1>Graph</h1>
 	<script type="text/javascript">
 		mpld3.draw_figure("fig1", {{ json1|safe }});
 	</script>
 	{% if json1 == None %}
-		<small>add more points</small>
+		<h2>Graph</h2>
+		<div class="alert error">
+			<input type="checkbox" id="alert1"/>
+			<label class="close" title="close" for="alert1">
+				<i class="icon-remove"></i>
+			</label>
+			<p class="inner">
+				<strong>Error!</strong> Selected regression not possible on data
+			</p>
+		</div>
 	{% endif %}
 	{% if json1 != None %}
 		<b>Calculated Function: {{function}}</b>
