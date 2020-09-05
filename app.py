@@ -35,7 +35,7 @@ def prepare_graph(regression_type):
 		graph.points[i,1] = yPoints[i]
 	graph.regression = regression_type
 	graph.coefficients = graph.polyFit(graph.regression)
-	function = graph.polyLabel()
+	function = graph.getCoeff()
 	rSquared = graph.rSquaredCalculate()
 	#print(function)
 	#print(rSquared)

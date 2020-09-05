@@ -52,6 +52,10 @@ class graph:
 			coefficientPower += 1
 		return value
 
+	def getCoeff(self):
+		roundlist = [round(x,3) for x in self.coefficients]
+		return [x for x in reversed(roundlist)]
+
 	def polyLabel(self):
 		function = ""
 		for i in reversed(range(len(self.coefficients))):
