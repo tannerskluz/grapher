@@ -1,30 +1,30 @@
 from flask import Flask, render_template, url_for, request, redirect
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import grapher as gr
 import mpld3
 import json
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+# db = SQLAlchemy(app)
 reg = 1
+xPoints = [1.0,3.0,5.0]
+yPoints = [-1.0, 7.0, -6.0]
 
-class Data(db.Model):
-	id = db.Column(db.Integer, primary_key = True)
-	xValues = db.Column(db.Float)
-	yValues = db.Column(db.Float)
-	valid = db.Column(db.Integer, default = 1)
-	date_created = db.Column(db.DateTime, default = datetime.utcnow)
+# class Data(db.Model):
+# 	id = db.Column(db.Integer, primary_key = True)
+# 	xValues = db.Column(db.Float)
+# 	yValues = db.Column(db.Float)
+# 	valid = db.Column(db.Integer, default = 1)
+# 	date_created = db.Column(db.DateTime, default = datetime.utcnow)
 
-	def __repr__(self):
-		return '<Task %r>' % self.id
+# 	def __repr__(self):
+# 		return '<Task %r>' % self.id
 
 def prepare_graph(regression_type):
-	xPoints = Data.query.with_entities(Data.xValues)
-	yPoints = Data.query.with_entities(Data.yValues)
-	xPoints = [x for x, in xPoints]
-	yPoints = [y for y, in yPoints]
+	global xPoints
+	global yPoints
 	if len(xPoints) <= regression_type:
 		print('error points regression_type')
 		raise ValueError('Not enough points for regression')
@@ -35,7 +35,7 @@ def prepare_graph(regression_type):
 		graph.points[i,1] = yPoints[i]
 	graph.regression = regression_type
 	graph.coefficients = graph.polyFit(graph.regression)
-	function = graph.polyLabel()
+	function = graph.getCoeff()
 	rSquared = graph.rSquaredCalculate()
 	#print(function)
 	#print(rSquared)
@@ -44,47 +44,46 @@ def prepare_graph(regression_type):
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
+	global xPoints
+	global yPoints
 	if request.method == 'POST':
 		task_content =request.form['content']
 		try:
 			xVal = float(task_content.split(',')[0])
 			yVal = float(task_content.split(',')[1])
-			new_point = Data(xValues = xVal, yValues = yVal)
-			already_in = Data.query.order_by(Data.date_created).all()
 			unique = True
 			global reg
-			for point in already_in:
-				if point.xValues == xVal and point.yValues == yVal:
+			for i in range(len(xPoints)):
+				if xPoints[i] == xVal and yPoints[i] == yVal:
 					unique =False
 					break
 			if unique:
-				db.session.add(new_point)
-				db.session.commit()
+				xPoints.append(xVal)
+				yPoints.append(yVal)
 			else:
+				raise ValueError
 				print('point already listed')
 			#return redirect('/')
 		except:
 			#note that input is incorrect
-			points = Data.query.order_by(Data.date_created).all()
 			try:
 				g, f, r = prepare_graph(reg)
 				json1 = json.dumps(mpld3.fig_to_dict(g))
 			except:
-				return render_template('index.html',points = points, json1 = None,regstatus = reg, add_error = True)
+				return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg, add_error = True)
 			print(f)
 			print(r)
-			return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r, add_error =True)
+			return render_template('index.html', x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r, add_error =True)
 		#reg = int(request.form.get("regs"))
-		points = Data.query.order_by(Data.date_created).all()
 		#global reg
 		try:
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
 		except:
-			return render_template('index.html',points = points, json1 = None,regstatus = reg)
+			return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 		print(f)
 		print(r)
-		return render_template('index.html',points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
+		return render_template('index.html',x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 	elif request.method == 'GET':
 		print('get spot')
 		try:
@@ -94,53 +93,51 @@ def index():
 			temp_reg = 1
 		reg = temp_reg
 		print("regressoin : ", reg)
-		points = Data.query.order_by(Data.date_created).all()
 		try:
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
 		except:
-			return render_template('index.html',points = points, json1 = None,regstatus = reg)
+			return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 		print(f)
 		print(r)
-		return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
+		return render_template('index.html', x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 	else:
-		points = Data.query.order_by(Data.date_created).all()
 		print('this spot')
 		return render_template('index.html', points = points)
 
-@app.route('/delete/<int:id>')
-def delete(id):
-	point_to_delete = Data.query.get_or_404(id)
-
+@app.route('/delete/<int:index>')
+def delete(index):
+	global xPoints
+	global yPoints
 	try:
-		db.session.delete(point_to_delete)
-		db.session.commit()
+		xPoints.pop(index)
+		yPoints.pop(index)
 		#return redirect('/')
 	except:
 		return 'There was a problem deleting that point'
 	global reg
-	points = Data.query.order_by(Data.date_created).all()
 	try:
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
 	except:
-		return render_template('index.html',points = points, json1 = None,regstatus = reg)
+		return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 	print(f)
 	print(r)
-	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
+	return render_template('index.html', x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 
 @app.route('/regraph')
 def regraph():
 	global reg
-	points = Data.query.order_by(Data.date_created).all()
+	global xPoints
+	global yPoints
 	try:
 		g, f, r = prepare_graph(reg)
 		json1 = json.dumps(mpld3.fig_to_dict(g))
 	except:
-		return render_template('index.html',points = points, json1 = None,regstatus = reg)
+		return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 	print(f)
 	print(r)
-	return render_template('index.html', points = points, json1 = json1, regstatus = reg, function =f, r2 =r)
+	return render_template('index.html',x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 
 @app.route('/about')
 def about():
