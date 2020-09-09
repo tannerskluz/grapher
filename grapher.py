@@ -1,6 +1,4 @@
 import numpy as np
-import tkinter as tk
-from tkinter import messagebox
 import matplotlib.pyplot as plt, mpld3
 
 
