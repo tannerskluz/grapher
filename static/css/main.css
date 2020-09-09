@@ -107,7 +107,7 @@ td {
 
 #fig1 {
     /*margin: 1 auto;*/
-    width: 800px;
+    width: 500px;
     position: absolute;
     top: 100px;
     left: 45%;
@@ -121,14 +121,13 @@ td {
 }
 
 .add{
-    position: absolute;
-    width: 53%;
+    position: relative;
 }
 
 .regression{
     position: absolute;
+    left: 7%;
     top: 100px;
-    width: 600px;
 }
 
 /*attempt at adding alert for bad input

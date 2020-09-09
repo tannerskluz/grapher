@@ -76,34 +76,9 @@
 		</div>
 	{% endif %}
 	{% if json1 != None %}
-		<b>Calculated Function: p(x)= 
-		{% for i in range(function|length) %}
-			{% if i==0 and (regstatus-i)==1 %}
-				<b>{{function[i]}}x </b>
-			{% elif i==0 %}
-				<b>{{function[i]}}x<sup>{{regstatus -i}}</sup> </b>
-			{% elif (regstatus-i)==0 %}
-				{% if function[i] < 0 %}
-					<b>- {{function[i]*(-1.0)}}</b>
-				{% else %}
-					<b>+ {{function[i]}}</b>
-				{% endif %}
-			{% elif (regstatus-i)==1 %}
-				{% if function[i] < 0 %}
-					<b>- {{function[i]*(-1.0)}}x </b>
-				{% else %}
-					<b>+ {{function[i]}}x </b>
-				{% endif %}
-			{% else %}
-				{% if function[i] < 0 %}
-					<b>- {{function[i]*(-1.0)}}x<sup>{{regstatus -i}}</sup> </b>
-				{% else %}
-					<b>+ {{function[i]}}x<sup>{{regstatus -i}}</sup> </b>
-				{% endif %}
-			{% endif %}
-		{% endfor %}
+		<b>Calculated Function: {{function}}</b>
 		<br>
-		<b>R<sup>2</sup> Value: {{r2}}</b>
+		<b>R^2 Value: {{r2}}</b>
 	{% endif %}
 </div>
 {% endblock %}
