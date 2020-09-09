@@ -87,7 +87,6 @@ more-itertools==8.2.0
 mpld3==0.3
 mpmath==1.1.0
 msgpack==0.6.1
-multipledispatch==0.6.0\
 nbconvert==5.6.1
 nbformat==5.0.4
 networkx==2.4
@@ -131,7 +130,6 @@ pydocstyle==4.0.1
 pyflakes==2.1.1
 Pygments==2.5.2
 pylint==2.4.4
-pyodbc===4.0.0-unsupported
 pyOpenSSL==19.1.0
 pyparsing==2.4.6
 pyrsistent==0.15.7
@@ -157,7 +155,6 @@ qtconsole==4.6.0
 QtPy==1.9.0
 requests==2.22.0
 rope==0.16.0
-Rtree==0.9.3
 ruamel-yaml==0.15.87
 scipy==1.4.1
 seaborn==0.10.0
@@ -206,4 +203,3 @@ xlwt==1.3.0
 xmltodict==0.12.0
 yapf==0.28.0
 zict==1.0.0
-zipp==2.2.0
