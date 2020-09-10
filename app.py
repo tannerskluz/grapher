@@ -9,8 +9,8 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 # db = SQLAlchemy(app)
 reg = 1
-xPoints = [1.69,3.69,5.69]
-yPoints = [-1.69, 7.69, -6.69]
+xPoints = [1.69,2.69,3.69]
+yPoints = [-1.69, -2.69, -3.69]
 
 # class Data(db.Model):
 # 	id = db.Column(db.Integer, primary_key = True)
@@ -107,6 +107,7 @@ def index():
 
 @app.route('/delete/<int:index>')
 def delete(index):
+	print('attempting to delete index', index)
 	global xPoints
 	global yPoints
 	try:
