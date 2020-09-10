@@ -70,9 +70,13 @@ def index():
 				g, f, r = prepare_graph(reg)
 				json1 = json.dumps(mpld3.fig_to_dict(g))
 			except:
+				print('xPoints:', xPoints)
+				print('yPoints:', yPoints)
 				return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg, add_error = True)
 			print(f)
 			print(r)
+			print('xPoints:', xPoints)
+			print('yPoints:', yPoints)
 			return render_template('index.html', x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r, add_error =True)
 		#reg = int(request.form.get("regs"))
 		#global reg
@@ -80,9 +84,13 @@ def index():
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
 		except:
+			print('xPoints:', xPoints)
+			print('yPoints:', yPoints)
 			return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 		print(f)
 		print(r)
+		print('xPoints:', xPoints)
+		print('yPoints:', yPoints)
 		return render_template('index.html',x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 	elif request.method == 'GET':
 		print('get spot')
@@ -97,12 +105,18 @@ def index():
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
 		except:
+			print('xPoints:', xPoints)
+			print('yPoints:', yPoints)
 			return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 		print(f)
 		print(r)
+		print('xPoints:', xPoints)
+		print('yPoints:', yPoints)
 		return render_template('index.html', x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 	else:
 		print('this spot')
+		print('xPoints:', xPoints)
+		print('yPoints:', yPoints)
 		return render_template('index.html', points = points)
 
 @app.route('/delete/<int:index>')
@@ -121,9 +135,13 @@ def delete(index):
 			g, f, r = prepare_graph(reg)
 			json1 = json.dumps(mpld3.fig_to_dict(g))
 	except:
+		print('xPoints:', xPoints)
+		print('yPoints:', yPoints)
 		return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 	print(f)
 	print(r)
+	print('xPoints:', xPoints)
+	print('yPoints:', yPoints)
 	return render_template('index.html', x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 
 @app.route('/regraph')
@@ -135,9 +153,13 @@ def regraph():
 		g, f, r = prepare_graph(reg)
 		json1 = json.dumps(mpld3.fig_to_dict(g))
 	except:
+		print('xPoints:', xPoints)
+		print('yPoints:', yPoints)
 		return render_template('index.html',x= xPoints, y = yPoints, json1 = None,regstatus = reg)
 	print(f)
 	print(r)
+	print('xPoints:', xPoints)
+	print('yPoints:', yPoints)
 	return render_template('index.html',x= xPoints, y = yPoints, json1 = json1, regstatus = reg, function =f, r2 =r)
 
 @app.route('/about')
