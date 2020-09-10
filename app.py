@@ -9,8 +9,8 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 # db = SQLAlchemy(app)
 reg = 1
-xPoints = [1.69,2.69,3.69]
-yPoints = [-1.69, -2.69, -3.69]
+xPoints = []
+yPoints = []
 
 # class Data(db.Model):
 # 	id = db.Column(db.Integer, primary_key = True)
