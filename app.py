@@ -70,11 +70,14 @@ class Data:
 # 	#print(rSquared)
 # 	#return graph.graphToHtml()
 # 	return graph.graphToHtml(), function, rSquared
-graph_data = Data()
+gd= Data()
+
+def get_data():
+	return gd
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
-	global graph_data
+	graph_data = get_data()
 	if request.method == 'POST':
 		task_content =request.form['content']
 		try:
@@ -153,7 +156,7 @@ def index():
 
 @app.route('/delete/<int:index>')
 def delete(index):
-	global graph_data
+	graph_data = get_data()
 	print('attempting to delete index', index)
 	try:
 		graph_data.deletePoint(index)
@@ -177,7 +180,7 @@ def delete(index):
 @app.route('/regraph')
 def regraph():
 	global reg
-	global graph_data
+	graph_data = get_data()
 	try:
 		g, f, r = graph_data.prepare_graph(reg)
 		json1 = json.dumps(mpld3.fig_to_dict(g))
