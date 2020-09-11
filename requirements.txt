@@ -1,0 +1,25 @@
+certifi==2020.6.20
+click==7.1.2
+cycler==0.10.0
+Flask==1.1.2
+Flask-SQLAlchemy==2.4.4
+gunicorn==20.0.4
+itsdangerous==1.1.0
+Jinja2==2.11.2
+kiwisolver==1.2.0
+MarkupSafe==1.1.1
+matplotlib @ file:///tmp/build/80754af9/matplotlib-base_1597876320876/work
+mkl-fft==1.1.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+mpld3==0.5.1
+numpy @ file:///tmp/build/80754af9/numpy_and_numpy_base_1596233707986/work
+olefile==0.46
+Pillow @ file:///tmp/build/80754af9/pillow_1594307325547/work
+psycopg2-binary==2.8.6
+pyparsing==2.4.7
+python-dateutil==2.8.1
+six==1.15.0
+SQLAlchemy==1.3.19
+tornado==6.0.4
+Werkzeug==1.0.1

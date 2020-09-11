@@ -6,19 +6,26 @@ import mpld3
 import json
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+ #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:chipotleZen15@localhost/pointdata'
+ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://zhbiykqqrhdqiz:fd84e7b3ab9afd90a6d528e4ceba24dc9312877d5311802d0da2df044574959b@ec2-3-226-231-4.compute-1.amazonaws.com:5432/d3tgs0lp4fsoj5'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 reg = 1
 
 class Data(db.Model):
+	tablename__ = 'pointdata'
 	id = db.Column(db.Integer, primary_key = True)
 	xValues = db.Column(db.Float)
 	yValues = db.Column(db.Float)
-	valid = db.Column(db.Integer, default = 1)
 	date_created = db.Column(db.DateTime, default = datetime.utcnow)
 
-	def __repr__(self):
-		return '<Task %r>' % self.id
+	def __init__(self, xValues, yValues):
+		self.xValues = xValues
+		self.yValues = yValues
+
+	# def __repr__(self):
+	# 	return '<Task %r>' % self.id
 
 def prepare_graph(regression_type):
 	xPoints = Data.query.with_entities(Data.xValues)
