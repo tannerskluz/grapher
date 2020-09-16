@@ -231,3 +231,15 @@ td {
   }
 }
   
+.about{
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: 15%;
+    color: #0803a1;
+}
+
+.aboutheader{
+    position: relative;
+    /*left: 50%;*/
+}

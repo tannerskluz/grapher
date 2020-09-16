@@ -1,6 +1,4 @@
 import numpy as np
-import tkinter as tk
-from tkinter import messagebox
 import matplotlib.pyplot as plt, mpld3
 
 
@@ -38,7 +36,7 @@ class graph:
 		x = np.linspace((min(self.points[:, 0]))-2,max(self.points[:, 0])+2, 100)
 		display.plot(x, self.polyCalculate(x), label = "f(x) = " +self.polyLabel())
 		#plt.title("test")
-		display.legend()
+		# display.legend()
 		plt.xlabel('x')
 		plt.ylabel('y')
 		plt.title('Graph')
